@@ -25,8 +25,7 @@ function isNullOrWhiteSpace(str) {
     return (!str || str.length === 0 || /^\s*$/.test(str));
 }
 
-let fileInput = document.querySelector("#fileInput");
-//let fileInput = document.getElementById("fileInput");
+// let fileInput = document.querySelector("#fileInput");
 
 let coursePool = [];
 
@@ -743,183 +742,183 @@ function courseMatchesSearch(course) {
     return courseMatches;
 }
 
-function readttbooklet(file) {
-    let reader = new FileReader();
-    reader.onload = function () {
-        let rawText = reader.result;
-        let splitText = rawText.split(/,|\n/);
+// function readttbooklet(file) {
+//     let reader = new FileReader();
+//     reader.onload = function () {
+//         let rawText = reader.result;
+//         let splitText = rawText.split(/,|\n/);
 
-        for (let i=0 ; i < splitText.length ; ) {
-            //ADD FILTRATION CLAUSE HERE
-            let skipCourse = true;
-            for (let j in coursesToRead) {
-                let coursePrefix = coursesToRead[j];
-                if (splitText[i+1].startsWith(coursePrefix)) {
-                    skipCourse = false;
-                }
-            }
-            // if ( !splitText[i+1].startsWith("CS F2") &&!splitText[i+1].startsWith("GS") && !splitText[i+1].startsWith("HSS") ) {
-            if (skipCourse) {
-                console.log("Skipping course: " + splitText[i+1]);
-                do {
-                    i += 12;
-                } while ( isNullOrWhiteSpace(splitText[i]) && i<splitText.length );
-                continue;
-            }
+//         for (let i=0 ; i < splitText.length ; ) {
+//             //ADD FILTRATION CLAUSE HERE
+//             let skipCourse = true;
+//             for (let j in coursesToRead) {
+//                 let coursePrefix = coursesToRead[j];
+//                 if (splitText[i+1].startsWith(coursePrefix)) {
+//                     skipCourse = false;
+//                 }
+//             }
+//             // if ( !splitText[i+1].startsWith("CS F2") &&!splitText[i+1].startsWith("GS") && !splitText[i+1].startsWith("HSS") ) {
+//             if (skipCourse) {
+//                 console.log("Skipping course: " + splitText[i+1]);
+//                 do {
+//                     i += 12;
+//                 } while ( isNullOrWhiteSpace(splitText[i]) && i<splitText.length );
+//                 continue;
+//             }
 
-            let j=i;
+//             let j=i;
 
-            //Read Course Details
-            let newCourse = new Course();
-            newCourse.comCode = parseInt(splitText[j], 10);
-            newCourse.courseNo = splitText[j+1];
-            newCourse.courseTitle = splitText[j+2];
-            let individualCredits = splitText[j+3].split(' ');
-            individualCredits = individualCredits.filter(Boolean);
-            for (let k=0 ; k<3 ; k++) {
-                newCourse.credits.push( parseInt(individualCredits[k], 10) );
-            }
-            newCourse.compreDate = splitText[j+11];
-            let compreDateList = splitText[j+11].split(" ");
-            compreDateList = compreDateList.filter(Boolean);
-            compreDateList[0] = compreDateList[0].split("/");
-            newCourse.compreDate = {
-                date: new Date(2019, parseInt(compreDateList[0][1]) - 1, parseInt(compreDateList[0][0])),
-                time: compreDateList[1],
-            }
+//             //Read Course Details
+//             let newCourse = new Course();
+//             newCourse.comCode = parseInt(splitText[j], 10);
+//             newCourse.courseNo = splitText[j+1];
+//             newCourse.courseTitle = splitText[j+2];
+//             let individualCredits = splitText[j+3].split(' ');
+//             individualCredits = individualCredits.filter(Boolean);
+//             for (let k=0 ; k<3 ; k++) {
+//                 newCourse.credits.push( parseInt(individualCredits[k], 10) );
+//             }
+//             newCourse.compreDate = splitText[j+11];
+//             let compreDateList = splitText[j+11].split(" ");
+//             compreDateList = compreDateList.filter(Boolean);
+//             compreDateList[0] = compreDateList[0].split("/");
+//             newCourse.compreDate = {
+//                 date: new Date(2019, parseInt(compreDateList[0][1]) - 1, parseInt(compreDateList[0][0])),
+//                 time: compreDateList[1],
+//             }
 
-            //Read Lecture Sections
-            do {
-                let newSection = new Section();
+//             //Read Lecture Sections
+//             do {
+//                 let newSection = new Section();
 
-                if (splitText[j+10]) {
-                    let commonHourList = splitText[j+10].split(' ');
-                    commonHourList = commonHourList.filter(Boolean);
-                    newSection.commonHour = {
-                        // day: commonHourList[0],
-                        day: daysDictionary[commonHourList[0]],
-                        // hour: commonHourList[1],
-                        hour: parseInt(commonHourList[1]),
-                        // room: commonHourList[2],
-                        room: parseInt(commonHourList[2]),
-                    };
-                }
+//                 if (splitText[j+10]) {
+//                     let commonHourList = splitText[j+10].split(' ');
+//                     commonHourList = commonHourList.filter(Boolean);
+//                     newSection.commonHour = {
+//                         // day: commonHourList[0],
+//                         day: daysDictionary[commonHourList[0]],
+//                         // hour: commonHourList[1],
+//                         hour: parseInt(commonHourList[1]),
+//                         // room: commonHourList[2],
+//                         room: parseInt(commonHourList[2]),
+//                     };
+//                 }
 
-                newSection.type = "Lecture";
-                newSection.sectionNo = parseInt(splitText[j+4]);
-                newSection.roomNo = parseInt(splitText[j+7]);
+//                 newSection.type = "Lecture";
+//                 newSection.sectionNo = parseInt(splitText[j+4]);
+//                 newSection.roomNo = parseInt(splitText[j+7]);
 
-                let daysList = splitText[j+8].split(' ');
-                daysList = daysList.filter(Boolean);
-                for (let day in daysList) {
-                    // if (day) {
-                        newSection.days.push(daysDictionary[daysList[day]]);
-                    // }
-                }
+//                 let daysList = splitText[j+8].split(' ');
+//                 daysList = daysList.filter(Boolean);
+//                 for (let day in daysList) {
+//                     // if (day) {
+//                         newSection.days.push(daysDictionary[daysList[day]]);
+//                     // }
+//                 }
 
-                let hoursList = splitText[j+9].split(' ');
-                hoursList = hoursList.filter(Boolean);
-                for (let hour in hoursList) {
-                    // if (hour) {
-                        newSection.hours.push( parseInt(hoursList[hour]) );
-                    // }
-                }
-                do {
-                    let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
-                    newSection.instructors.push(newInstructor);
-                    j += 12;
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
-                newCourse.lectureSections.push(newSection);
-            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
+//                 let hoursList = splitText[j+9].split(' ');
+//                 hoursList = hoursList.filter(Boolean);
+//                 for (let hour in hoursList) {
+//                     // if (hour) {
+//                         newSection.hours.push( parseInt(hoursList[hour]) );
+//                     // }
+//                 }
+//                 do {
+//                     let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+//                     newSection.instructors.push(newInstructor);
+//                     j += 12;
+//                 } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+//                 newCourse.lectureSections.push(newSection);
+//             } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
 
-            //Read Practical Sections
-            if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Practical') ) {
-                do {
-                    let newSection = new Section();
+//             //Read Practical Sections
+//             if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Practical') ) {
+//                 do {
+//                     let newSection = new Section();
 
-                    newSection.type = "Practical";
-                    newSection.sectionNo = parseInt(splitText[j+4]);
-                    newSection.roomNo = parseInt(splitText[j+7]);
+//                     newSection.type = "Practical";
+//                     newSection.sectionNo = parseInt(splitText[j+4]);
+//                     newSection.roomNo = parseInt(splitText[j+7]);
 
-                    let daysList = splitText[j+8].split(' ');
-                    daysList = daysList.filter(Boolean);
-                    for (let day in daysList) {
-                        // if (day) {
-                            newSection.days.push(daysDictionary[daysList[day]]);
-                        // }
-                    }
+//                     let daysList = splitText[j+8].split(' ');
+//                     daysList = daysList.filter(Boolean);
+//                     for (let day in daysList) {
+//                         // if (day) {
+//                             newSection.days.push(daysDictionary[daysList[day]]);
+//                         // }
+//                     }
 
-                    let hoursList = splitText[j+9].split(' ');
-                    hoursList = hoursList.filter(Boolean);
-                    for (let hour in hoursList) {
-                        // if (hour) {
-                            newSection.hours.push( parseInt(hoursList[hour]) );
-                        // }
-                    }
-                    do {
-                        let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
-                        newSection.instructors.push(newInstructor);
-                        j += 12;
-                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
-                    newCourse.practicalSections.push(newSection);
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
-            }
+//                     let hoursList = splitText[j+9].split(' ');
+//                     hoursList = hoursList.filter(Boolean);
+//                     for (let hour in hoursList) {
+//                         // if (hour) {
+//                             newSection.hours.push( parseInt(hoursList[hour]) );
+//                         // }
+//                     }
+//                     do {
+//                         let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+//                         newSection.instructors.push(newInstructor);
+//                         j += 12;
+//                     } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+//                     newCourse.practicalSections.push(newSection);
+//                 } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
+//             }
 
-            //Read Tutorial Sections
-            if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Tutorial') ) {
-                do {
-                    let newSection = new Section();
+//             //Read Tutorial Sections
+//             if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Tutorial') ) {
+//                 do {
+//                     let newSection = new Section();
 
-                    newSection.type = "Tutorial";
-                    newSection.sectionNo = parseInt(splitText[j+4]);
-                    newSection.roomNo = parseInt(splitText[j+7]);
+//                     newSection.type = "Tutorial";
+//                     newSection.sectionNo = parseInt(splitText[j+4]);
+//                     newSection.roomNo = parseInt(splitText[j+7]);
 
-                    let daysList = splitText[j+8].split(' ');
-                    daysList = daysList.filter(Boolean);
-                    for (let day in daysList) {
-                        // if (day) {
-                            newSection.days.push(daysDictionary[daysList[day]]);
-                        // }
-                    }
+//                     let daysList = splitText[j+8].split(' ');
+//                     daysList = daysList.filter(Boolean);
+//                     for (let day in daysList) {
+//                         // if (day) {
+//                             newSection.days.push(daysDictionary[daysList[day]]);
+//                         // }
+//                     }
 
-                    let hoursList = splitText[j+9].split(' ');
-                    hoursList = hoursList.filter(Boolean);
-                    for (let hour in hoursList) {
-                        // if (hour) {
-                            newSection.hours.push( parseInt(hoursList[hour]) );
-                        // }
-                    }
-                    do {
-                        let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
-                        newSection.instructors.push(newInstructor);
-                        j += 12;
-                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
-                    newCourse.tutorialSections.push(newSection);
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
-            }
+//                     let hoursList = splitText[j+9].split(' ');
+//                     hoursList = hoursList.filter(Boolean);
+//                     for (let hour in hoursList) {
+//                         // if (hour) {
+//                             newSection.hours.push( parseInt(hoursList[hour]) );
+//                         // }
+//                     }
+//                     do {
+//                         let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+//                         newSection.instructors.push(newInstructor);
+//                         j += 12;
+//                     } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+//                     newCourse.tutorialSections.push(newSection);
+//                 } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
+//             }
 
-            i=j;
+//             i=j;
 
-            //INSERT FILTER CONDITION HERE
-            // if (!newCourse.courseNo.startsWith("CS")) {
-            //     delete newCourse;
-            // }
-            coursePool.push(newCourse);
-            console.log("Read course: " + newCourse.courseNo);
-        }
+//             //INSERT FILTER CONDITION HERE
+//             // if (!newCourse.courseNo.startsWith("CS")) {
+//             //     delete newCourse;
+//             // }
+//             coursePool.push(newCourse);
+//             console.log("Read course: " + newCourse.courseNo);
+//         }
 
-        //ACTION TO TAKE AFTER TT IS READ
-        document.getElementById("search-bar").addEventListener('keyup', refreshAll);
-        document.getElementById("search-bar").addEventListener('change', refreshAll);
-        document.getElementById("search-bar").addEventListener('input', refreshAll);
-        document.getElementById("search-bar").addEventListener('search', refreshAll);
-        refreshAll();
+//         //ACTION TO TAKE AFTER TT IS READ
+//         document.getElementById("search-bar").addEventListener('keyup', refreshAll);
+//         document.getElementById("search-bar").addEventListener('change', refreshAll);
+//         document.getElementById("search-bar").addEventListener('input', refreshAll);
+//         document.getElementById("search-bar").addEventListener('search', refreshAll);
+//         refreshAll();
 
-    };
-    reader.readAsBinaryString(fileInput.files[0]);
-}
+//     };
+//     reader.readAsBinaryString(fileInput.files[0]);
+// }
 
-fileInput.addEventListener('change', readttbooklet);
+// fileInput.addEventListener('change', readttbooklet);
 
 function loadFile(filePath) {
     var result = null;
@@ -931,8 +930,6 @@ function loadFile(filePath) {
     }
     return result;
 }
-
-//refreshAll();
 
 
 function readttbookletserver() {
@@ -1104,196 +1101,6 @@ function readttbookletserver() {
     document.getElementById("search-bar").addEventListener('input', refreshAll);
     document.getElementById("search-bar").addEventListener('search', refreshAll);
     refreshAll();
-
 }
 
 window.onload = readttbookletserver;
-
-
-
-
-
-
-
-
-
-
-// --------------------WASTEBASKET--------------------
-
-// function refreshDisplay() {
-//     for (let i=0 ; i<6 ; i++) {
-//         for (let j=0 ; j<12 ; j++) {
-//             if (tt[j][i]) {
-//                 course = t[j][i].course;
-//                 section = t[j][i].section;
-//                 if (section.commonHour.day === j && section.commonHour.hour == i) {
-//                     document.getElementById(j.toString + i.toString).innerHTML = stringSection(course, section);
-//                 }
-//                 else {
-//                     document.getElementById(j.toString + i.toString).innerHTML = stringCommonHour(course, section);
-//                 }
-//             }
-//             else {
-//                 document.getElementById(j.toString + i.toString).innerHTML = "";
-//             }
-//         }
-//     }
-// }
-
-            // <div class="cart-item">
-            //     <label>CS F111</label>
-            //     <br>
-            //     <label>Lecture: </label>
-            //     <select name="Lecture Section" id="">
-            //         <option value=""></option>
-            //         <option value="1">1. M W F 8:30</option>
-            //     </select>
-            // </div>
-
-// function refreshCart() {
-//     let cart = document.getElementById("control-panel");
-
-//     //Remove all elements from cart GUI
-//     while(cart.firstChild) {
-//         cart.removeChild(cart.firstChild);
-//     }
-
-//     //Create and add elements to cart GUI
-//     for (let item in courseCart) {
-//         let course = courseCart[item].course;
-
-//         let itemObject = document.createElement("div");
-//         itemObject.setAttribute("class", "cart-item");
-
-//         let courseLabel = document.createElement("label");
-//         courseLabel.innerHTML = course.courseNo + ": " + course.courseTitle;
-//         itemObject.appendChild(courseLabel);
-
-//         let lineBreak = document.createElement("br");
-//         itemObject.appendChild(lineBreak);
-
-//         let lectureLabel = document.createElement("label");
-//         lectureLabel.innerHTML = "Lecture: ";
-//         itemObject.appendChild(lectureLabel);
-
-//         let lectureSelector = document.createElement("select");
-//         let selectedIndex = 0;
-//         let emptyOption = document.createElement("option");
-//         emptyOption.value = "";
-//         lectureSelector.add(emptyOption);
-
-//         for (let i in course.lectureSections) {
-//             let section = course.lectureSections[i];
-//             if ( !checkClash(section) ) {
-//                 let sectionOption = document.createElement("option");
-//                 sectionOption.value = section.sectionNo.toString();
-//                 if (courseCart[item].lectureSection == section.sectionNo) {
-//                     selectedIndex = lectureSelector.length;
-//                 }
-//                 let sectionOptionString = "";
-//                 sectionOptionString += section.sectionNo.toString() + ". ";
-//                 for (let j in section.days) {
-//                     sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
-//                 }
-//                 for (let j in section.hours) {
-//                     sectionOptionString += section.hours[j].toString() + " ";
-//                 }
-//                 sectionOption.innerHTML = sectionOptionString;
-//                 lectureSelector.selectedIndex = selectedIndex;
-//                 lectureSelector.add(sectionOption);
-//                 if (course.lectureSections.length == 1) {
-//                     lectureSelector.disabled = true;
-//                 }
-//             }
-//         }
-//         itemObject.appendChild(lectureSelector);
-
-//         if (course.practicalSections.length != 0) {
-//             let lineBreak = document.createElement("br");
-//             itemObject.appendChild(lineBreak);
-
-//             let practicalLabel = document.createElement("label");
-//             practicalLabel.innerHTML = "Practical: ";
-//             itemObject.appendChild(practicalLabel);
-
-//             let practicalSelector = document.createElement("select");
-//             let emptyOption = document.createElement("option");
-//             emptyOption.value = "";
-//             practicalSelector.add(emptyOption);
-
-//             let selectedIndex = 0;
-
-//             for (let i in course.practicalSections) {
-//                 let section = course.practicalSections[i];
-//                 if ( !checkClash(section) ) {
-//                     let sectionOption = document.createElement("option");
-//                     sectionOption.value = section.sectionNo.toString();
-//                     if (courseCart[item].practicalSection == section.sectionNo) {
-//                         selectedIndex = practicalSelector.length;
-//                     }
-//                     let sectionOptionString = "";
-//                     sectionOptionString += section.sectionNo.toString() + ". ";
-//                     for (let j in section.days) {
-//                         sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
-//                     }
-//                     for (let j in section.hours) {
-//                         sectionOptionString += section.hours[j].toString() + " ";
-//                     }
-//                     sectionOption.innerHTML = sectionOptionString;
-//                     practicalSelector.add(sectionOption);
-//                 }
-//             }
-//             practicalSelector.selectedIndex = selectedIndex;
-//             itemObject.appendChild(practicalSelector);
-//             if (course.practicalSections.length == 1) {
-//                 practicalSelector.disabled = true;
-//             }
-//         }
-
-//         if (course.tutorialSections.length != 0) {
-//             let lineBreak = document.createElement("br");
-//             itemObject.appendChild(lineBreak);
-
-//             let tutorialLabel = document.createElement("label");
-//             tutorialLabel.innerHTML = "Tutorial: ";
-//             itemObject.appendChild(tutorialLabel);
-
-//             let tutorialSelector = document.createElement("select");
-//             let emptyOption = document.createElement("option");
-//             emptyOption.value = "";
-//             tutorialSelector.add(emptyOption);
-
-//             let selectedIndex = 0;
-
-//             for (let i in course.tutorialSections) {
-//                 let section = course.tutorialSections[i];
-//                 if ( !checkClash(section) ) {
-//                     let sectionOption = document.createElement("option");
-//                     sectionOption.value = section.sectionNo.toString();
-//                     if (courseCart[item].tutorialSection == section.sectionNo) {
-//                         selectedIndex = tutorialSelector.length;
-//                     }
-//                     let sectionOptionString = "";
-//                     sectionOptionString += section.sectionNo.toString() + ". ";
-//                     for (let j in section.days) {
-//                         sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
-//                     }
-//                     for (let j in section.hours) {
-//                         sectionOptionString += section.hours[j].toString() + " ";
-//                     }
-//                     sectionOption.innerHTML = sectionOptionString;
-
-//                     tutorialSelector.selectedIndex = selectedIndex;
-//                     tutorialSelector.addChild(sectionOption);
-
-//                     if (course.tutorialSections.length == 1) {
-//                         tutorialSelector.disabled = true;
-//                     }
-//                 }
-//             }
-//             itemObject.appendChild(tutorialSelector);
-
-//         }
-//         cart.appendChild(itemObject);
-//     }
-// }
