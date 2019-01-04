@@ -103,6 +103,7 @@ function refreshAll() {
     refreshCredits();
     refreshCart();
     refreshCatalog();
+    refreshCompreTimetable();
 }
 
 function refreshCredits(){
@@ -896,6 +897,36 @@ function refreshCart() {
         }
         
     }
+}
+
+function refreshCompreTimetable() {
+    let compreDatesList = [];
+    for (let i in courseCart) {
+        compreDatesList.push(courseCart[i].course.compreDate);
+    }
+    let comprePanel = document.getElementById("compre-timetable");
+    let compreString = "Compre Timetable:<br/>";
+    if (compreDatesList.length > 0) {
+        let minCompreDate = null;
+        let minCompreIndex = -1;
+        while (compreDatesList.length > 0) {
+            minCompreDate = compreDatesList[0];
+            minCompreIndex = 0;
+            for (let j in compreDatesList) {
+                let compreDate = compreDatesList[j];
+                if (compreDate.date.getTime() < minCompreDate.date.getTime()) {
+                    minCompreDate = compreDate;
+                    minCompreIndex = j;
+                } else if ( (compreDate.date.getTime() == minCompreDate.date.getTime()) && (minCompreDate.time=="AN") ) {
+                    minCompreDate = compreDate;
+                    minCompreIndex = j;
+                }
+            }
+            compreString += (minCompreDate.date.getDate() + "/" + (minCompreDate.date.getMonth()+1) + " " + minCompreDate.time + "<br/>");
+            compreDatesList.splice(minCompreIndex, 1);
+        }
+    }
+    comprePanel.innerHTML = compreString;
 }
 
 function courseMatchesSearch(course) {
