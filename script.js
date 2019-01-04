@@ -717,6 +717,9 @@ function refreshCatalog() {
             if (compulsoryTimingsStr != "") {
                 courseLabel.innerHTML += ("<br/><br/>Requires:<br/>" + compulsoryTimingsStr);
             }
+            if (course.compreDate.date.getTime()) {
+                courseLabel.innerHTML += ("<br/><br/>Compre:<br/>" + course.compreDate.date.getDate() + "/" + (course.compreDate.date.getMonth()+1) + " " + course.compreDate.time);
+            }
             catalogItem.appendChild(courseLabel);
 
             let lineBreak = document.createElement("br");
