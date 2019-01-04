@@ -12,6 +12,8 @@
 #navbar {
     background-color: rgb(241, 241, 241);
     margin: 5px;
+    overflow: none;
+    display: flex;
 }
 
 #content-container {
@@ -50,8 +52,6 @@
     text-align: center;
     text-decoration: none;
     font-size: 20px;
-    transition-duration: 0.2s;
-    margin-right: 2px;
 
 }
 
