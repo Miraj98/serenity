@@ -1,0 +1,107 @@
+#header {
+    background-color: lightgray;
+    text-align: center;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+}
+
+#navbar {
+    background-color: rgb(241, 241, 241);
+    margin: 5px;
+}
+
+#content-container {
+    display: flex;
+}
+
+#control-panel {
+    flex: 1 1 75px;
+    background-color: lightgray;
+    margin: 5px;
+    padding: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#content-panel {
+    flex: 6 6 450px;
+    background-color: lightgray;
+    margin: 5px;
+    padding: 5px;
+}
+
+#configuration-panel {
+    background-color: lightgray;
+    margin: 5px;
+    padding: 5px;
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.navbar-btn {
+    background-color: rgb(241, 241, 241);
+    border: 1px solid gray;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    transition-duration: 0.2s;
+    margin-right: 2px;
+}
+
+.navbar-btn:hover:enabled {
+    background-color: lightgray;
+}
+
+.disabled-btn {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+table {
+    margin: auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+    width: 150px;
+    height: 40px;
+}
+
+.cart-item {
+    background-color: white;
+    margin: 5px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.cart-item select {
+
+}
+
+.catalog-item {
+    float: left;
+    margin: 5px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.catalog-item button {
+    margin: 20px;
+}
+
