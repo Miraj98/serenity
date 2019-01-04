@@ -17,7 +17,9 @@ var tt = [
     [null, null, null, null, null, null]
 ];
 
-let coursesToRead = ["CS F2", "HSS", "GS", "BITS"];
+let creditsInCart = 0;
+
+let coursesToRead = [""];
 
 function isNullOrWhiteSpace(str) {
     return (!str || str.length === 0 || /^\s*$/.test(str));
@@ -99,8 +101,19 @@ class CartItem {
 
 
 function refreshAll() {
+    refreshCredits();
     refreshCart();
     refreshCatalog();
+}
+
+function refreshCredits(){
+    let credits = 0;
+    for (let i in courseCart) {
+        let course = courseCart[i].course;
+        credits += course.credits[2];
+    }
+    creditsInCart = credits;
+    document.getElementById("credits-label").innerHTML = "Credits: " + creditsInCart;
 }
 
 function removeCartItem (cartItem) {
@@ -614,7 +627,20 @@ function courseClash(course) {
             break;
         }
     }
-    clash = clash || allLecturesClash || allTutorialsClash || allPracticalsClash;
+    let compreClashes = false;
+    let creditsExceed = false;
+    let cartCredits = 0;
+    for (let i in courseCart) {
+        let courseItem = courseCart[i];
+        cartCredits += courseItem.course.credits[2];
+        if ( (courseItem.course.compreDate.date.getTime() == course.compreDate.date.getTime()) && (courseItem.course.compreDate.time == course.compreDate.time) ) {
+            compreClashes = true;
+        }
+        if ( (cartCredits + course.credits[2]) > 25 ) {
+            creditsExceed = true;
+        }
+    }
+    clash = clash || allLecturesClash || allTutorialsClash || allPracticalsClash || compreClashes || creditsExceed;
     return clash;
 }
 
@@ -639,7 +665,7 @@ function refreshCatalog() {
                 continue outer;
             }
         }
-        if (!courseClash(course)) {
+        if (!courseClash(course) && courseMatchesSearch(course)) {
             //add course to catalog
             let catalogItem = document.createElement("div");
             catalogItem.setAttribute("class", "catalog-item");
@@ -663,6 +689,16 @@ function refreshCatalog() {
             catalog.appendChild(catalogItem);
         }
     }
+}
+
+function courseMatchesSearch(course) {
+    let courseMatches = false;
+    let searchKeyword = document.getElementById("search-bar").value;
+    searchKeyword = searchKeyword.toUpperCase();
+    if ( (searchKeyword == "") || (course.courseNo.startsWith(searchKeyword)) ) {
+        courseMatches = true;
+    }
+    return courseMatches;
 }
 
 function readttbooklet(file) {
@@ -702,6 +738,13 @@ function readttbooklet(file) {
                 newCourse.credits.push( parseInt(individualCredits[k], 10) );
             }
             newCourse.compreDate = splitText[j+11];
+            let compreDateList = splitText[j+11].split(" ");
+            compreDateList = compreDateList.filter(Boolean);
+            compreDateList[0] = compreDateList[0].split("/");
+            newCourse.compreDate = {
+                date: new Date(2019, parseInt(compreDateList[0][1]) - 1, parseInt(compreDateList[0][0])),
+                time: compreDateList[1],
+            }
 
             //Read Lecture Sections
             do {
@@ -743,9 +786,9 @@ function readttbooklet(file) {
                     let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
                     newSection.instructors.push(newInstructor);
                     j += 12;
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) );
+                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
                 newCourse.lectureSections.push(newSection);
-            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) );
+            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
 
             //Read Practical Sections
             if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Practical') ) {
@@ -775,9 +818,9 @@ function readttbooklet(file) {
                         let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
                         newSection.instructors.push(newInstructor);
                         j += 12;
-                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) );
+                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
                     newCourse.practicalSections.push(newSection);
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) );
+                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
             }
 
             //Read Tutorial Sections
@@ -808,9 +851,9 @@ function readttbooklet(file) {
                         let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
                         newSection.instructors.push(newInstructor);
                         j += 12;
-                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) );
+                    } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
                     newCourse.tutorialSections.push(newSection);
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) );
+                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
             }
 
             i=j;
@@ -824,6 +867,7 @@ function readttbooklet(file) {
         }
 
         //ACTION TO TAKE AFTER TT IS READ
+        document.getElementById("search-bar").addEventListener('keyup', refreshAll);
         refreshAll();
 
     };

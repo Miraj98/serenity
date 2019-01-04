@@ -52,10 +52,15 @@
     font-size: 20px;
     transition-duration: 0.2s;
     margin-right: 2px;
+
 }
 
 .navbar-btn:hover:enabled {
     background-color: lightgray;
+}
+
+.navbar-btn input {
+    font-size: 14px;
 }
 
 .disabled-btn {
