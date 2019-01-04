@@ -92,10 +92,6 @@ th, td {
     border-radius: 5px;
 }
 
-.cart-item select {
-
-}
-
 .catalog-item {
     float: left;
     margin: 5px;
@@ -103,10 +99,13 @@ th, td {
     background-color: white;
     border-radius: 5px;
     text-align: center;
+    vertical-align: middle;
     font-size: 14px;
+    min-width: 200px;
+    width: 200px;
 }
 
 .catalog-item button {
-    margin: 20px;
+    margin: 10px;
 }
 
