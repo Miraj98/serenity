@@ -393,7 +393,7 @@ function addCartItem (course) {
     document.getElementById("control-panel").appendChild(itemObject);
 }
 
-function refreshCart() {
+function refreshCartOld() {
     let cartPanel = document.getElementById("control-panel");
 
     for (let i in cartPanel.childNodes) {
@@ -748,6 +748,153 @@ function refreshCatalog() {
                 }
             }
         }
+    }
+}
+
+function refreshCart() {
+    let cartPanel = document.getElementById("control-panel");
+
+    for (let i in cartPanel.childNodes) {
+        let itemObject = cartPanel.childNodes[i];
+        let courseItem = null;
+        for (let j in courseCart) {
+            if (courseCart[j].course.courseNo == itemObject.id) {
+                courseItem = courseCart[j];
+            }
+        }
+
+        //Repopulate section options
+        let lectureSelector = null;
+        let practicalSelector = null;
+        let tutorialSelector = null;
+
+        for (let j in itemObject.childNodes) {
+            let nodeClass = itemObject.childNodes[j].className;
+            if (nodeClass == "lectureSelector") {
+                lectureSelector = itemObject.childNodes[j];
+            }
+            if (nodeClass == "practicalSelector") {
+                practicalSelector = itemObject.childNodes[j];
+            }
+            if (nodeClass == "tutorialSelector") {
+                tutorialSelector = itemObject.childNodes[j];
+            }
+        }
+
+        let selectedIndex = 0;
+
+        let selector = lectureSelector;
+
+        if (selector) {
+            while (selector.length > 1) {
+                selector.remove(1);
+            }
+            for (let j in courseItem.course.lectureSections) {
+                let section = courseItem.course.lectureSections[j];
+                // if (!checkClash(courseItem.course, section)) {
+                let sectionOption = document.createElement("option");
+                sectionOption.value = section.sectionNo.toString();
+                if (courseItem.lectureSection == section.sectionNo) {
+                    selectedIndex = lectureSelector.length;
+                }
+                let sectionOptionString = "";
+                sectionOptionString += section.sectionNo.toString() + ". ";
+                for (let j in section.days) {
+                    sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
+                }
+                for (let j in section.hours) {
+                    sectionOptionString += section.hours[j].toString() + " ";
+                }
+                sectionOption.innerHTML = sectionOptionString;
+                if (checkClash(courseItem.course, section)) {
+                    sectionOption.disabled = true;
+                }
+                lectureSelector.add(sectionOption);
+                if (courseItem.course.lectureSections.length == 1) {
+                    selectedIndex = 1;
+                    lectureSelector.disabled = true;
+                }
+                // }
+            }
+            lectureSelector.selectedIndex = selectedIndex;
+        }
+
+        selectedIndex = 0;
+
+        selector = practicalSelector;
+
+        if (selector) {
+            while (selector.length > 1) {
+                selector.remove(1);
+            }
+            for (let j in courseItem.course.practicalSections) {
+                let section = courseItem.course.practicalSections[j];
+                // if (!checkClash(courseItem.course, section)) {
+                let sectionOption = document.createElement("option");
+                sectionOption.value = section.sectionNo.toString();
+                if (courseItem.practicalSection == section.sectionNo) {
+                    selectedIndex = practicalSelector.length;
+                }
+                let sectionOptionString = "";
+                sectionOptionString += section.sectionNo.toString() + ". ";
+                for (let j in section.days) {
+                    sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
+                }
+                for (let j in section.hours) {
+                    sectionOptionString += section.hours[j].toString() + " ";
+                }
+                sectionOption.innerHTML = sectionOptionString;
+                if (checkClash(courseItem.course, section)) {
+                    sectionOption.disabled = true;
+                }
+                practicalSelector.add(sectionOption);
+                if (courseItem.course.practicalSections.length == 1) {
+                    selectedIndex = 1;
+                    practicalSelector.disabled = true;
+                }
+                // }
+            }
+            practicalSelector.selectedIndex = selectedIndex;
+        }
+
+        selectedIndex = 0;
+
+        selector = tutorialSelector;
+
+        if (selector) {
+            while (selector.length > 1) {
+                selector.remove(1);
+            }
+            for (let j in courseItem.course.tutorialSections) {
+                let section = courseItem.course.tutorialSections[j];
+                // if (!checkClash(courseItem.course, section)) {
+                let sectionOption = document.createElement("option");
+                sectionOption.value = section.sectionNo.toString();
+                if (courseItem.tutorialSection == section.sectionNo) {
+                    selectedIndex = tutorialSelector.length;
+                }
+                let sectionOptionString = "";
+                sectionOptionString += section.sectionNo.toString() + ". ";
+                for (let j in section.days) {
+                    sectionOptionString += daysDictionaryReverse[section.days[j]] + " ";
+                }
+                for (let j in section.hours) {
+                    sectionOptionString += section.hours[j].toString() + " ";
+                }
+                sectionOption.innerHTML = sectionOptionString;
+                if (checkClash(courseItem.course, section)) {
+                    sectionOption.disabled = true;
+                }
+                tutorialSelector.add(sectionOption);
+                if (courseItem.course.tutorialSections.length == 1) {
+                    selectedIndex = 1;
+                    tutorialSelector.disabled = true;
+                }
+                // }
+            }
+            tutorialSelector.selectedIndex = selectedIndex;
+        }
+        
     }
 }
 
