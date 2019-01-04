@@ -688,9 +688,12 @@ function compulsoryTimings(course) {
 
 function refreshCatalog() {
     let catalog = document.getElementById("configuration-panel");
+    catalog.scrollLeft = 0;
     while (catalog.childNodes.length > 0) {
         catalog.removeChild(catalog.childNodes[0]);
     }
+    let enabledCoursesIndex = 0;
+    let disabledCourseAdded = false;
     outer:
     for (let i in coursePool) {
         let course = coursePool[i];
@@ -699,7 +702,8 @@ function refreshCatalog() {
                 continue outer;
             }
         }
-        if (!courseClash(course) && courseMatchesSearch(course)) {
+        // if (!courseClash(course) && courseMatchesSearch(course)) {
+        if (courseMatchesSearch(course)) {
             //add course to catalog
             let catalogItem = document.createElement("div");
             catalogItem.setAttribute("class", "catalog-item");
@@ -712,7 +716,6 @@ function refreshCatalog() {
             if (compulsoryTimingsStr != "") {
                 courseLabel.innerHTML += ("<br/><br/>Requires:<br/>" + compulsoryTimingsStr);
             }
-
             catalogItem.appendChild(courseLabel);
 
             let lineBreak = document.createElement("br");
@@ -725,9 +728,25 @@ function refreshCatalog() {
             }
             addBtn.onclick = addCourseToCart;
             addBtn.innerHTML = "ADD";
+            let courseIsClashing = courseClash(course);
+            if (courseIsClashing) {
+                addBtn.disabled = true;
+                addBtn.style.opacity = "0.3";
+            }
             catalogItem.appendChild(addBtn);
-
-            catalog.appendChild(catalogItem);
+            if (courseIsClashing) {
+                catalog.appendChild(catalogItem);
+                disabledCourseAdded = true;
+            }
+            else {
+                if (disabledCourseAdded) {
+                    catalog.insertBefore(catalogItem, catalog.childNodes[enabledCoursesIndex++]);
+                }
+                else {
+                    catalog.appendChild(catalogItem);
+                    enabledCoursesIndex++;
+                }
+            }
         }
     }
 }
