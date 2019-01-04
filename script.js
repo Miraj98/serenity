@@ -652,6 +652,41 @@ function stringCommonHour(course, section) {
     return course.courseNo + "\n" + course.courseTitle + "\nCommon Hour\nSection: " + section.sectionNo;
 }
 
+function compulsoryTimings(course) {
+    let findCompulsorySection = function (sections) {
+        let compulsorySection = "";
+        if (sections.length == 1) {
+            for (let j in sections[0].days) {
+                let day = sections[0].days[j];
+                compulsorySection += (daysDictionaryReverse[day.toString()] + " ");
+            }
+            for (let j in sections[0].hours) {
+                let hour = sections[0].hours[j];
+                compulsorySection += (hour.toString() + " ");
+            }
+        }
+        if ((sections.length!=0) && sections[0].commonHour) {
+            compulsorySection += (daysDictionaryReverse[sections[0].commonHour.day.toString()] + " ");
+            compulsorySection += sections[0].commonHour.hour.toString();
+        }
+        return compulsorySection;
+    }
+    let compulsoryTimingsStr = "";
+    let tempStr = "";
+    compulsoryTimingsStr += findCompulsorySection(course.lectureSections);
+    tempStr = findCompulsorySection(course.practicalSections);
+    if (compulsoryTimingsStr != "" && tempStr != "") {
+        compulsoryTimingsStr += ",<br/>";
+        compulsoryTimingsStr += tempStr;
+    }
+    tempStr = findCompulsorySection(course.tutorialSections);
+    if (compulsoryTimingsStr != "" && tempStr != "") {
+        compulsoryTimingsStr += ",<br/>";
+        compulsoryTimingsStr += tempStr;
+    }
+    return compulsoryTimingsStr;
+}
+
 function refreshCatalog() {
     let catalog = document.getElementById("configuration-panel");
     while (catalog.childNodes.length > 0) {
@@ -672,6 +707,13 @@ function refreshCatalog() {
 
             let courseLabel = document.createElement("label");
             courseLabel.innerHTML = course.courseNo + ": " + course.courseTitle;
+            
+
+            let compulsoryTimingsStr = compulsoryTimings(course);
+            if (compulsoryTimingsStr != "") {
+                courseLabel.innerHTML += ("<br/><br/>Requires:<br/>" + compulsoryTimingsStr);
+            }
+
             catalogItem.appendChild(courseLabel);
 
             let lineBreak = document.createElement("br");
@@ -868,6 +910,9 @@ function readttbooklet(file) {
 
         //ACTION TO TAKE AFTER TT IS READ
         document.getElementById("search-bar").addEventListener('keyup', refreshAll);
+        document.getElementById("search-bar").addEventListener('change', refreshAll);
+        document.getElementById("search-bar").addEventListener('input', refreshAll);
+        document.getElementById("search-bar").addEventListener('search', refreshAll);
         refreshAll();
 
     };
