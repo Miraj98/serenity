@@ -695,7 +695,7 @@ function courseMatchesSearch(course) {
     let courseMatches = false;
     let searchKeyword = document.getElementById("search-bar").value;
     searchKeyword = searchKeyword.toUpperCase();
-    if ( (searchKeyword == "") || (course.courseNo.startsWith(searchKeyword)) ) {
+    if ( (searchKeyword == "") || (course.courseNo.includes(searchKeyword)) || (course.courseTitle.includes(searchKeyword)) ) {
         courseMatches = true;
     }
     return courseMatches;
