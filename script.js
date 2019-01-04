@@ -902,7 +902,9 @@ function refreshCart() {
 function refreshCompreTimetable() {
     let compreDatesList = [];
     for (let i in courseCart) {
-        compreDatesList.push(courseCart[i].course.compreDate);
+        let compreDate = courseCart[i].course.compreDate;
+        compreDate['courseNo'] = courseCart[i].course.courseNo;
+        compreDatesList.push(compreDate);
     }
     let comprePanel = document.getElementById("compre-timetable");
     let compreString = "Compre Timetable:<br/>";
@@ -922,7 +924,7 @@ function refreshCompreTimetable() {
                     minCompreIndex = j;
                 }
             }
-            compreString += (minCompreDate.date.getDate() + "/" + (minCompreDate.date.getMonth()+1) + " " + minCompreDate.time + "<br/>");
+            compreString += (minCompreDate.date.getDate() + "/" + (minCompreDate.date.getMonth()+1) + " " + minCompreDate.time + " (" + minCompreDate.courseNo + ")<br/>");
             compreDatesList.splice(minCompreIndex, 1);
         }
     }
