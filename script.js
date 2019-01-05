@@ -1239,7 +1239,11 @@ function readttbookletserver() {
         let individualCredits = splitText[j+3].split(' ');
         individualCredits = individualCredits.filter(Boolean);
         for (let k=0 ; k<3 ; k++) {
-            newCourse.credits.push( parseInt(individualCredits[k], 10) );
+            if (individualCredits[k] == '-') {
+                newCourse.credits.push(0);
+            } else {
+                newCourse.credits.push( parseInt(individualCredits[k], 10) );
+            }
         }
         newCourse.compreDate = splitText[j+11];
         let compreDateList = splitText[j+11].split(" ");
