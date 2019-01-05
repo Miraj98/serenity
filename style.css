@@ -243,6 +243,11 @@ th, td {
     }
     #content-panel {
         font-size: 12px;
-        display: inline-block;
+        padding: 0px;
+        background-color: white;
+    }
+    #content-panel table {
+        margin: 0px;
+        max-width: 100% !important;
     }
   }
