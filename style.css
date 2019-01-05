@@ -171,3 +171,80 @@ th, td {
 .course-none {
 
 }
+
+@media only screen and (max-width: 600px) {
+    body {
+      background-color: lightblue;
+    }
+    #content-container {
+        display: flex;
+        flex-direction: column
+    }
+    #control-panel {
+        flex: 1 1 75px;
+        background-color: lightgray;
+        margin: 5px;
+        padding: 5px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        min-height: 200px;
+        display: flex;
+    }
+    .cart-item {
+        background-color: white;
+        margin: 5px;
+        padding: 8px;
+        font-size: 12px;
+        border-radius: 5px;
+        max-width: 200px;
+        float: left;
+        /* display: flex;
+        flex-direction: column;
+        flex: 1 1 200px; */
+    }
+    
+    .cart-item button {
+        font-size: 10px;
+    }
+
+    .cart-item select {
+        max-width: 90%;
+        font-size: 12px;
+    }
+    
+    .catalog-item {
+        float: left;
+        margin: 3px;
+        padding: 3px;
+        background-color: white;
+        border-radius: 5px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 12px;
+        max-height: 180px;
+    }
+    
+    .catalog-item button {
+        margin: 7px;
+        font-size: 12px;
+    }
+    .settings {
+        background-color: rgb(241, 241, 241);
+        border: 1px solid gray;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .navbar-btn {
+        background-color: rgb(241, 241, 241);
+        border: 1px solid gray;
+        padding: 5px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    #content-panel {
+        font-size: 12px;
+    }
+  }
