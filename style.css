@@ -173,9 +173,6 @@ th, td {
 }
 
 @media only screen and (max-width: 600px) {
-    body {
-      background-color: lightblue;
-    }
     #content-container {
         display: flex;
         flex-direction: column
@@ -246,5 +243,6 @@ th, td {
     }
     #content-panel {
         font-size: 12px;
+        display: inline-block;
     }
   }
