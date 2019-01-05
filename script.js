@@ -601,7 +601,7 @@ function removeSection(course, section) {
     // refreshDisplay();
 }
 
-function courseClash(course) {
+function courseClashOld(course) {
     let clash = false;
     if (course.lectureSections[0].commonHour) {
         clash = checkClash(course, course.lectureSections[0]);
@@ -642,6 +642,66 @@ function courseClash(course) {
     }
     clash = clash || allLecturesClash || allTutorialsClash || allPracticalsClash || compreClashes || creditsExceed;
     return clash;
+}
+
+function courseClash(course) {
+    let clash = false;
+    let commonHourClashes = false;
+    if (course.lectureSections[0].commonHour) {
+        commonHourClashes = checkClash(course, course.lectureSections[0]);
+    }
+    let allLecturesClash = Boolean(course.lectureSections.length);
+    let allTutorialsClash = Boolean(course.tutorialSections.length);
+    let allPracticalsClash = Boolean(course.practicalSections.length);
+    for (let i in course.lectureSections) {
+        if (!checkClash(course, course.lectureSections[i])) {
+            allLecturesClash = false;
+            break;
+        }
+    }
+    for (let i in course.practicalSections) {
+        if (!checkClash(course, course.practicalSections[i])) {
+            allPracticalsClash = false;
+            break;
+        }
+    }
+    for (let i in course.tutorialSections) {
+        if (!checkClash(course, course.tutorialSections[i])) {
+            allTutorialsClash = false;
+            break;
+        }
+    }
+    let compreClashes = false;
+    let creditsExceed = false;
+    let cartCredits = 0;
+    for (let i in courseCart) {
+        let courseItem = courseCart[i];
+        cartCredits += courseItem.course.credits[2];
+        if ( (courseItem.course.compreDate.date.getTime() == course.compreDate.date.getTime()) && (courseItem.course.compreDate.time == course.compreDate.time) ) {
+            compreClashes = true;
+        }
+        if ( (cartCredits + course.credits[2]) > 25 ) {
+            creditsExceed = true;
+        }
+    }
+    clash = commonHourClashes || allLecturesClash || allTutorialsClash || allPracticalsClash || compreClashes || creditsExceed;
+    let clashStr = "";
+    if (clash) {
+        if (creditsExceed) {
+            clashStr = "Credits exceed";
+        } else if (compreClashes) {
+            clashStr = "Compre clash";
+        } else if (commonHourClashes) {
+            clashStr = "Common hour clash";
+        } else if (allLecturesClash) {
+            clashStr = "All lecture sections clash";
+        } else if (allTutorialsClash) {
+            clashStr = "All tutorial sections clash";
+        } else if (allPracticalsClash) {
+            clashStr = "All practical sections clash";
+        }
+    }
+    return clashStr;
 }
 
 function stringSection(course, section) {
@@ -732,13 +792,17 @@ function refreshCatalog() {
             }
             addBtn.onclick = addCourseToCart;
             addBtn.innerHTML = "ADD";
-            let courseIsClashing = courseClash(course);
-            if (courseIsClashing) {
+            // let courseIsClashing = courseClashOld(course);
+            let courseClashReason = courseClash(course);
+            // if (courseIsClashing) {
+            if (courseClashReason != "") {
                 addBtn.disabled = true;
                 addBtn.style.opacity = "0.3";
             }
             catalogItem.appendChild(addBtn);
-            if (courseIsClashing) {
+            // if (courseIsClashing) {
+            if (courseClashReason != "") {
+                catalogItem.innerHTML += ("<br/>Disabled: " + courseClashReason);
                 catalog.appendChild(catalogItem);
                 disabledCourseAdded = true;
             }
