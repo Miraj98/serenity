@@ -873,6 +873,9 @@ function refreshCart() {
                 for (let j in section.hours) {
                     sectionOptionString += section.hours[j].toString() + " ";
                 }
+                if (document.getElementById("instructor-toggle").checked) {
+                    sectionOptionString += section.instructors[0].instructor;
+                }
                 sectionOption.innerHTML = sectionOptionString;
                 if (checkClash(courseItem.course, section)) {
                     sectionOption.disabled = true;
@@ -911,6 +914,9 @@ function refreshCart() {
                 for (let j in section.hours) {
                     sectionOptionString += section.hours[j].toString() + " ";
                 }
+                if (document.getElementById("instructor-toggle").checked) {
+                    sectionOptionString += section.instructors[0].instructor;
+                }
                 sectionOption.innerHTML = sectionOptionString;
                 if (checkClash(courseItem.course, section)) {
                     sectionOption.disabled = true;
@@ -948,6 +954,9 @@ function refreshCart() {
                 }
                 for (let j in section.hours) {
                     sectionOptionString += section.hours[j].toString() + " ";
+                }
+                if (document.getElementById("instructor-toggle").checked) {
+                    sectionOptionString += section.instructors[0].instructor;
                 }
                 sectionOption.innerHTML = sectionOptionString;
                 if (checkClash(courseItem.course, section)) {
@@ -1366,6 +1375,7 @@ function readttbookletserver() {
     document.getElementById("search-bar").addEventListener('change', refreshAll);
     document.getElementById("search-bar").addEventListener('input', refreshAll);
     document.getElementById("search-bar").addEventListener('search', refreshAll);
+    document.getElementById("instructor-toggle").addEventListener('change', refreshAll);
     refreshAll();
 }
 

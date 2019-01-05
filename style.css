@@ -9,6 +9,13 @@
     color: black;
 }
 
+#settings-panel {
+    background-color: rgb(241, 241, 241);
+    margin: 5px;
+    overflow: none;
+    display: flex;
+}
+
 #navbar {
     background-color: rgb(241, 241, 241);
     margin: 5px;
@@ -45,6 +52,15 @@
     overflow-x: auto;
 }
 
+.settings {
+    background-color: rgb(241, 241, 241);
+    border: 1px solid gray;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+}
+
 .navbar-btn {
     background-color: rgb(241, 241, 241);
     border: 1px solid gray;
@@ -52,7 +68,6 @@
     text-align: center;
     text-decoration: none;
     font-size: 20px;
-
 }
 
 .navbar-btn:hover:enabled {
@@ -90,6 +105,10 @@ th, td {
     padding: 8px;
     font-size: 14px;
     border-radius: 5px;
+}
+
+.cart-item select {
+    max-width: 90%;
 }
 
 .catalog-item {
