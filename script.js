@@ -104,6 +104,7 @@ function refreshAll() {
     refreshCart();
     refreshCatalog();
     refreshCompreTimetable();
+    refreshColors();
 }
 
 function refreshCredits(){
@@ -1007,6 +1008,31 @@ function refreshCompreTimetable() {
     comprePanel.innerHTML = compreString;
 }
 
+function refreshColors () {
+    if (document.getElementById("color-toggle").checked) {
+        for (let i=0 ; i<6 ; i++) {
+            for (let j=0 ; j<12 ; j++) {
+                if (tt[j][i]) {
+                    for (let k in courseCart) {
+                        if (courseCart[k].course.courseNo == tt[j][i].course.courseNo) {
+                            document.getElementById( j.toString() + i.toString() ).setAttribute("class", "course-" + k.toString());
+                        }
+                    }
+                }
+                else {
+                    document.getElementById( j.toString() + i.toString() ).setAttribute("class", "course-none");
+                }
+            }
+        }
+    } else {
+        for (let i=0 ; i<6 ; i++) {
+            for (let j=0 ; j<12 ; j++) {
+                document.getElementById( j.toString() + i.toString() ).setAttribute("class", "course-none");
+            }
+        }
+    }
+}
+
 function courseMatchesSearch(course) {
     let courseMatches = false;
     let searchKeyword = document.getElementById("search-bar").value;
@@ -1380,6 +1406,8 @@ function readttbookletserver() {
     document.getElementById("search-bar").addEventListener('input', refreshAll);
     document.getElementById("search-bar").addEventListener('search', refreshAll);
     document.getElementById("instructor-toggle").addEventListener('change', refreshAll);
+    document.getElementById("color-toggle").checked = true;
+    document.getElementById("color-toggle").addEventListener('change', refreshAll);
     refreshAll();
 }
 

@@ -128,3 +128,46 @@ th, td {
     margin: 10px;
 }
 
+.course-0 {
+    background-color: rgb(225, 255, 245);
+}
+
+.course-1 {
+    background-color: rgb(229, 209, 201);
+}
+
+.course-2 {
+    background-color: rgb(245, 245, 220);
+}
+
+.course-3 {
+    background-color: rgb(220, 251, 220);
+}
+
+.course-4 {
+    background-color: rgba(135, 206, 250, 0.637);
+}
+
+.course-5 {
+    background-color: lightpink;
+}
+
+.course-6 {
+    background-color: rgb(248, 204, 204);
+}
+
+.course-7 {
+    background-color: whitesmoke;
+}
+
+.course-8 {
+    background-color: lightgoldenrodyellow;
+}
+
+.course-9 {
+    background-color: rgba(0, 255, 238, 0.575);
+}
+
+.course-none {
+
+}
