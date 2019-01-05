@@ -1406,7 +1406,6 @@ function readttbookletserver() {
     document.getElementById("search-bar").addEventListener('input', refreshAll);
     document.getElementById("search-bar").addEventListener('search', refreshAll);
     document.getElementById("instructor-toggle").addEventListener('change', refreshAll);
-    document.getElementById("color-toggle").checked = true;
     document.getElementById("color-toggle").addEventListener('change', refreshAll);
     refreshAll();
 }
