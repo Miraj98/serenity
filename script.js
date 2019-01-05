@@ -1298,7 +1298,7 @@ function readttbookletserver() {
             }
 
             newSection.type = "Lecture";
-            newSection.sectionNo = parseInt(splitText[j+4]);
+            newSection.sectionNo = parseInt(splitText[j+4]) || 1;
             newSection.roomNo = parseInt(splitText[j+7]);
 
             let daysList = splitText[j+8].split(' ');
@@ -1330,7 +1330,7 @@ function readttbookletserver() {
                 let newSection = new Section();
 
                 newSection.type = "Practical";
-                newSection.sectionNo = parseInt(splitText[j+4]);
+                newSection.sectionNo = parseInt(splitText[j+4]) || 1;
                 newSection.roomNo = parseInt(splitText[j+7]);
 
                 let daysList = splitText[j+8].split(' ');
@@ -1363,7 +1363,7 @@ function readttbookletserver() {
                 let newSection = new Section();
 
                 newSection.type = "Tutorial";
-                newSection.sectionNo = parseInt(splitText[j+4]);
+                newSection.sectionNo = parseInt(splitText[j+4]) || 1;
                 newSection.roomNo = parseInt(splitText[j+7]);
 
                 let daysList = splitText[j+8].split(' ');
