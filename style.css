@@ -29,7 +29,8 @@
 
 #control-panel {
     flex: 1 1 75px;
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    border: 2px solid black;
     margin: 5px;
     padding: 5px;
     overflow-x: hidden;
@@ -38,13 +39,15 @@
 
 #content-panel {
     flex: 6 6 450px;
-    background-color: lightgray;
+    /* background-color: lightgray; */
     margin: 5px;
     padding: 5px;
 }
 
 #configuration-panel {
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
     margin: 5px;
     padding: 5px;
     display: flex;
@@ -101,10 +104,12 @@ th, td {
 
 .cart-item {
     background-color: white;
+    border: 1px solid black;
     margin: 5px;
     padding: 8px;
     font-size: 14px;
     border-radius: 5px;
+    background-color: rgb(241, 241, 241);
 }
 
 .cart-item select {
@@ -116,12 +121,14 @@ th, td {
     margin: 5px;
     padding: 5px;
     background-color: white;
+    border: 1px solid black;
     border-radius: 5px;
     text-align: center;
     vertical-align: middle;
     font-size: 14px;
     min-width: 200px;
     width: 200px;
+    background-color: rgb(241, 241, 241);
 }
 
 .catalog-item button {
@@ -179,7 +186,6 @@ th, td {
     }
     #control-panel {
         flex: 1 1 75px;
-        background-color: lightgray;
         margin: 5px;
         padding: 5px;
         overflow-x: auto;
@@ -188,7 +194,6 @@ th, td {
         display: flex;
     }
     .cart-item {
-        background-color: white;
         margin: 5px;
         padding: 8px;
         font-size: 12px;
@@ -213,7 +218,6 @@ th, td {
         float: left;
         margin: 3px;
         padding: 3px;
-        background-color: white;
         border-radius: 5px;
         text-align: center;
         vertical-align: middle;
