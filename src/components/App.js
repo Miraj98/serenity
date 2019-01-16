@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import SearchCourses from './SearchCourses';
-import Timetable from './Timetable';
+import Timetable from './Timetable/Timetable';
 import readttbookletserver from '../readTimetable';
-import timetabledata from './timetabledata';
+import timetabledata from './Timetable/timetabledata';
 
 class App extends Component {
 
