@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/serenity/static/css/1.b4d34fa9.chunk.css"
   },
   {
-    "revision": "fafd5c57f8e5a7764021dc4a8de6cb6a",
+    "revision": "9c6733cc22468daac2f94aa96f292bb5",
     "url": "/serenity/index.html"
   }
 ];
