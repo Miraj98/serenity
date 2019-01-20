@@ -21,16 +21,6 @@ let daysDictionary = {
     S: 5,
 };
 
-let reverseDaysDictionary = {
-    0: 'M',
-    1: 'T',
-    2: 'W',
-    3: 'Th',
-    4: 'F',
-    5: 'S'
-}
-
-
 class Course {
     constructor() {
         this.comCode = null;
@@ -69,7 +59,7 @@ class Instructor {
 
 
 export default function readttbookletserver(rawText) {
-    console.log(rawText)
+
     let splitText = rawText.split(/,|\n/);
 
     for (let i=0 ; i < splitText.length ; ) {
@@ -100,7 +90,7 @@ export default function readttbookletserver(rawText) {
         let individualCredits = splitText[j+3].split(' ');
         individualCredits = individualCredits.filter(Boolean);
         for (let k=0 ; k<3 ; k++) {
-            if (individualCredits[k] == '-') {
+            if (individualCredits[k] === '-') {
                 newCourse.credits.push(0);
             } else {
                 newCourse.credits.push( parseInt(individualCredits[k], 10) );
@@ -161,7 +151,7 @@ export default function readttbookletserver(rawText) {
         } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
 
         //Read Practical Sections
-        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Practical') ) {
+        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] === 'Practical') ) {
             do {
                 let newSection = new Section();
 
@@ -194,7 +184,7 @@ export default function readttbookletserver(rawText) {
         }
 
         //Read Tutorial Sections
-        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] == 'Tutorial') ) {
+        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] === 'Tutorial') ) {
             do {
                 let newSection = new Section();
 
@@ -229,7 +219,6 @@ export default function readttbookletserver(rawText) {
         i=j;
 
         coursePool.push(newCourse);
-        console.log("Read course: " + newCourse.courseNo);
     }
 
     return coursePool

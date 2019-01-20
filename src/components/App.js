@@ -1,23 +1,21 @@
-import React, { Component } from 'react';
-import SearchCourses from './SearchCourses';
-import Timetable from './Timetable/Timetable';
-import readttbookletserver from '../readTimetable';
-import timetabledata from './Timetable/timetabledata';
+import React, { Component } from 'react'
+import SearchCourses from './SearchCourses'
+import Timetable from './Timetable/Timetable'
+import { connect } from 'react-redux'
 
 class App extends Component {
-
-    state = {
-        coursePool: [...readttbookletserver(timetabledata)]
-    }
-
     render() {
         return (
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <SearchCourses coursePool={this.state.coursePool}/>
+                <SearchCourses />
                 <Timetable />
             </div>
-        );
+        )
     }
 }
 
-export default App;
+const mapStateToProps = state => ({
+    timetable: state.timetable,
+})
+
+export default connect(mapStateToProps)(App);

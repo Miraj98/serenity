@@ -13,13 +13,12 @@ class Timetable extends React.Component {
 
 
     render() {
-        console.log(this.props.timetable)
         return (
             <div style={{textAlign: 'center'}}>
                 <div className='Row'>
-                    {this.timetableLabels}
+                    {this.timetableLabels.map((label, index) => <React.Fragment key={index}>{label}</React.Fragment>)}
                 </div>
-                {this.props.timetable.map(row => <TimetableRow row={row} key={row[0]}/>)}
+                {this.props.timetable.map(row => <TimetableRow row={row} coursesAdded={this.props.coursesAdded} key={row[0]}/>)}
             </div>
         )
     }
@@ -27,7 +26,8 @@ class Timetable extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    timetable: [...state.timetable]
+    timetable: state.timetable,
+    coursesAdded: state.coursesAdded
 })
 
 export default connect(mapStateToProps)(Timetable)

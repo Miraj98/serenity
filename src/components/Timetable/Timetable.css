@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr min-content;
-    height: 3.5em;
+    min-height: 3.75em;
     margin: 0.5em;
     padding-left: 1em;
     padding-right: 1em;
