@@ -40,7 +40,7 @@ class Sidebar extends React.Component {
                 >
                     {this.props.coursesAdded.map(course => (
                         <div key={course.courseNo} style={{display: 'flex', flexDirection: 'row', margin: 8}}>
-                            <div style={{width: 240}}>{course.courseNo}</div><Button type="danger" onClick={() => this.handleRemoveCourse(course)}>Remove</Button>
+                            <div style={{width: 240}}>{course.courseTitle}</div><Button type="danger" onClick={() => this.handleRemoveCourse(course)}>Remove</Button>
                         </div>
                     ))}
                 </Drawer>
