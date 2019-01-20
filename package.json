@@ -2,8 +2,10 @@
   "name": "timetable-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Miraj98.github.io/serenity",
   "dependencies": {
     "antd": "^3.12.1",
+    "gh-pages": "^2.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
@@ -11,6 +13,8 @@
     "redux": "^4.0.1"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
