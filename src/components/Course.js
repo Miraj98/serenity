@@ -30,15 +30,15 @@ class Course extends React.Component {
         switch(section.type) {
 
             case "Lecture":
-                this.setState(() => ({ lectureSectionSelected: {...section} }), () => console.log(this.state.lectureSectionSelected))
+                this.setState(() => ({ lectureSectionSelected: {...section} }))
                 break
             
             case "Practical":
-                this.setState(() => ({ practicalSectionSelected: {...section} }), () => console.log(this.state.practicalSectionSelected))
+                this.setState(() => ({ practicalSectionSelected: {...section} }))
                 break
 
             case "Tutorial":
-                this.setState(() => ({ tutorialSectionSelected: {...section} }), () => console.log(this.state.tutorialSectionSelected))
+                this.setState(() => ({ tutorialSectionSelected: {...section} }))
                 break
 
             default:

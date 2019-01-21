@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SearchCourses from './SearchCourses'
 import Timetable from './Timetable/Timetable'
+import Footer from './Footer'
 import { connect } from 'react-redux'
 
 class App extends Component {
@@ -9,6 +10,7 @@ class App extends Component {
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <SearchCourses />
                 <Timetable />
+                <Footer />
             </div>
         )
     }
