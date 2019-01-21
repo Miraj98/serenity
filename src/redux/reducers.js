@@ -28,7 +28,6 @@ const timetableReducer = (state= emptyTimetable, action) => {
 
 const coursesAddedReducer = (state=[], action) => {
     if(action.type === ADD_COURSE) {
-        console.log(action.payload)
         return [...state, action.payload]
     }
     if(action.type === DELETE_COURSE) {
@@ -51,7 +50,6 @@ const coursePoolReducer = (state = CoursePool, action) => {
                     let currentCourseDate = state[j].compreDate.date.getDate()
                     let currentCourseTime = state[j].compreDate.time
                     if(currentCourseDate === date && currentCourseTime === time) {
-                        console.log(state[j])
                         state[j] = { ...state[j], clashExists: handleCompreClash(state[j].clashExists, true, coursesAdded[i].courseNo) }
                     }
                 }

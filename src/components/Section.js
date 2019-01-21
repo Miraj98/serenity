@@ -9,8 +9,6 @@ const getSlots = (sectionDays, sectionHours) => {
     sectionDays.forEach(day => {
         days = days +reverseDaysDictionary[day]
     })
-    console.log(days)
-
     return sectionHours.map(hour => (days + ': ' + hour.toString() + ' '))
 }
 
@@ -21,6 +19,7 @@ const Section = props => (
     >
         {props.sections.map((section,index) => (
             <Popover
+                key={index}
                 title={`${section.type} section: ${section.sectionNo}`}
                 content={section.instructors.map(instructor => `${instructor.instructor}, `)}
             >

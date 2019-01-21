@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
     render() {
         return (
             <div>
-                <Button type='primary' onClick={() => this.showDrawer()} style={{marginTop: 16}}>
+                <Button type='primary' onClick={() => this.showDrawer()} >
                
                     <span><Icon type="shopping-cart" /></span><span style={{marginLeft: 8}}>My Cart</span>
         

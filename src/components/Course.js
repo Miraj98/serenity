@@ -53,7 +53,6 @@ class Course extends React.Component {
             description: `${course.courseTitle} (${course.courseNo}) added successfully to the timetable`,
             duration: 3
         })
-        console.log(store.getState().coursesAdded)
         store.dispatch(handleClashes(store.getState().coursesAdded))
         this.props.clearSearchResults()
   
