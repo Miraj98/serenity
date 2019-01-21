@@ -81,16 +81,6 @@ class Course extends React.Component {
                 <Card
                     title={this.state.courseTitle}
                     extra={<p style={{fontSize: 9}}>{this.state.courseNo}</p>}
-                    actions={
-                        [<Button
-                            type='primary'
-                            icon='plus'
-                            onClick={() => this.handleAddToCart(this.state)}
-                            disabled={this.state.clashExists.exists || !this.checkAllReqSectionsSelected()}
-                            >
-                                {'Add to Cart'}
-                            </Button>]
-                    }
                     style={{width: 400, backgroundColor: 'white', margin: 24}}
                 >
                     <div  style={{minHeight: 145}}>
@@ -137,6 +127,15 @@ class Course extends React.Component {
                             showIcon
                         /> : null}
                     </div>
+                    <Button
+                            type='primary'
+                            icon='plus'
+                            onClick={() => this.handleAddToCart(this.state)}
+                            disabled={this.state.clashExists.exists || !this.checkAllReqSectionsSelected()}
+                            style={{marginTop: 12}}
+                            >
+                                {'Add to Cart'}
+                     </Button>
                 </Card>
         )
     }

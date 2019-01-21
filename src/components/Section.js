@@ -24,7 +24,7 @@ const Section = props => (
                 title={`${section.type} section: ${section.sectionNo}`}
                 content={section.instructors.map(instructor => `${instructor.instructor}, `)}
             >
-                 <Radio.Button disabled={checkTimingClash(section, store.getState().timetable)} value={section} key={index}>{getSlots(section.days, section.hours)}</Radio.Button>
+                <Radio.Button disabled={checkTimingClash(section, store.getState().timetable)} value={section} key={index}>{getSlots(section.days, section.hours)}</Radio.Button>
             </Popover>
         ))}
     </Radio.Group>
