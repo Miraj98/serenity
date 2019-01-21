@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/serenity/precache-manifest.53c3b0ed97274aded82c92f47895ec97.js"
+  "/serenity/precache-manifest.00d2d14d146ebb7554d1307c4987bd75.js"
 );
 
 workbox.clientsClaim();
