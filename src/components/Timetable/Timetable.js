@@ -14,7 +14,7 @@ class Timetable extends React.Component {
 
     render() {
         return (
-            <div style={{textAlign: 'center'}}>
+            <div style={{textAlign: 'center', marginLeft: 8, marginRight: 36, marginBottom: 24}}>
                 <div className='Row'>
                     {this.timetableLabels.map((label, index) => <React.Fragment key={index}>{label}</React.Fragment>)}
                 </div>
