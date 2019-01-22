@@ -27,7 +27,7 @@ class Sidebar extends React.Component {
             <div>
                 <Button type='primary' onClick={() => this.showDrawer()} >
                
-                    <span><Icon type="shopping-cart" /></span><span style={{marginLeft: 8}}>My Cart</span>
+                    <span><Icon type="shopping-cart" /></span><span style={{marginLeft: '0.5em'}}>My Cart</span>
         
                 </Button>
                 <Drawer
@@ -39,8 +39,8 @@ class Sidebar extends React.Component {
                     visible={this.state.visible}
                 >
                     {this.props.coursesAdded.map(course => (
-                        <div key={course.courseNo} style={{display: 'flex', flexDirection: 'row', margin: 8}}>
-                            <div style={{width: 240}}>{course.courseTitle}</div><Button type="danger" onClick={() => this.handleRemoveCourse(course)}>Remove</Button>
+                        <div key={course.courseNo} style={{display: 'flex', flexDirection: 'row', margin: '0.5em'}}>
+                            <div style={{width: '15em'}}>{course.courseTitle}</div><Button type="danger" onClick={() => this.handleRemoveCourse(course)}>Remove</Button>
                         </div>
                     ))}
                 </Drawer>

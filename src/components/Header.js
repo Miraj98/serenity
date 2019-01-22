@@ -18,19 +18,19 @@ class Header extends React.Component {
             <div style={
                 {
                     display: 'flex',
-                    paddingBottom: 10,
-                    paddingTop: 10,
+                    paddingBottom: '0.6em',
+                    paddingTop: '0.6em',
                     alignItems: 'center',
                     borderBottomStyle:'solid',
-                    borderBottomWidth: 2,
+                    borderBottomWidth: '0.125em',
                     borderBottomColor: '#eee',
                     justifyContent: 'space-around'
                 }
             }>
-                <div style={{fontSize: 24}}><b>SERENITY</b></div>
+                <div style={{fontSize: '1.5em'}}><b>SERENITY</b></div>
                 <Input.Search
                     placeholder='Search courses...'
-                    style={{width: 500}}
+                    style={{width: '50em'}}
                     size='large'
                     enterButton
                     onChange={({ target }) => this.handleSearch(target.value)}

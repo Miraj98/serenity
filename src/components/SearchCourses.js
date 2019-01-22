@@ -18,7 +18,7 @@ class SearchCourses extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div style={{display: 'flex', flex: 1, justifyContent: 'center', padding: 24, flexDirection: 'column', alignItems: 'center'}}>
+                <div style={{display: 'flex', flex: 1, justifyContent: 'center', padding: '1.5em', flexDirection: 'column', alignItems: 'center'}}>
                     <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
                         {this.props.searchResults.map(result => (
                             <Course
