@@ -1,8 +1,8 @@
 import React from 'react'
 import { Radio, Popover } from 'antd'
-import reverseDaysDictionary from '../reverseDayDictionary'
-import { checkTimingClash } from '../Clashes'
-import store from '../redux/store'
+import reverseDaysDictionary from '../../redux/scripts/reverseDayDictionary'
+import { checkTimingClash } from '../../redux/scripts/Clashes'
+import store from '../../redux/store'
 
 const getSlots = (sectionDays, sectionHours) => {
     let days = ''

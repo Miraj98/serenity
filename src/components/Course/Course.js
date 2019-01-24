@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Card, Collapse, Alert, notification } from 'antd'
 import Section from './Section'
-import store from '../redux/store'
-import { addCourse, handleClashes } from '../redux/actions'
+import store from '../../redux/store'
+import { addCourse, handleClashes } from '../../redux/actions'
 import { connect } from 'react-redux'
 
 class Course extends React.Component {

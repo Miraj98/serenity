@@ -1,8 +1,8 @@
 import React from 'react'
 import  { Drawer, Icon, Button } from 'antd'
 import { connect } from 'react-redux'
-import { deleteCourse } from '../redux/actions'
-import store from '../redux/store';
+import { deleteCourse } from '../../redux/actions'
+import store from '../../redux/store';
 
 
 class Sidebar extends React.Component {

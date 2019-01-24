@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux'
 import emptyTimetable from './emptyTimetable'
 import { ADD_COURSE, DELETE_COURSE, HANDLE_CLASHES, SEARCH_RESULTS } from './actions'
-import CoursePool from './CoursePool'
-import { handleCompreClash } from '../Clashes'
-import  { addCourseHelper, deleteCourseHelper } from './HelperFunctions'
+import CoursePool from './scripts/CoursePool'
+import { handleCompreClash } from './scripts/Clashes'
+import  { addCourseHelper, deleteCourseHelper } from './scripts/HelperFunctions'
 
 //reducers...
 const timetableReducer = (state= emptyTimetable, action) => {

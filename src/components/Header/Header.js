@@ -3,8 +3,8 @@ import Sidebar from './Sidebar'
 import { connect } from 'react-redux'
 import { Input } from 'antd'
 import { getSearchResults } from './getSearchResults'
-import store from '../redux/store'
-import { addSearchResults } from '../redux/actions'
+import store from '../../redux/store'
+import { addSearchResults } from '../../redux/actions'
 
 class Header extends React.Component {
 

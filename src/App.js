@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import SearchCourses from './SearchCourses'
-import Timetable from './Timetable/Timetable'
-import Footer from './Footer'
-import Header from './Header'
+import SearchCourses from './components/Header/SearchCourses'
+import Timetable from './components/Timetable/Timetable'
+import Footer from './components/Footer/Footer'
+import Header from './components/Header/Header'
 import { connect } from 'react-redux'
 
 class App extends Component {

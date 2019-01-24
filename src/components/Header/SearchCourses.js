@@ -1,8 +1,8 @@
 import React from 'react'
-import Course from './Course'
+import Course from '../Course/Course'
 import {connect} from 'react-redux'
-import store  from '../redux/store'
-import { addSearchResults } from '../redux/actions'
+import store  from '../../redux/store'
+import { addSearchResults } from '../../redux/actions'
 
 
 import './SearchCourses.css'
