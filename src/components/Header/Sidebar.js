@@ -1,7 +1,7 @@
 /* global gapi */
 import React from 'react'
 import CalendarSync from './GoogleCalendar/CalendarSync'
-import  { Drawer, Icon, Button } from 'antd'
+import  { Drawer, Icon, Button, message, notification } from 'antd'
 import { connect } from 'react-redux'
 import { deleteCourse, updateSignInStatus } from '../../redux/actions'
 import store from '../../redux/store';
@@ -33,6 +33,7 @@ class Sidebar extends React.Component {
     }
 
     handleCalendarSync = () => {
+        const hide = message.loading("Syncing with google calendar", 0)
         let coursesAdded = this.props.coursesAdded
         let batch = gapi.client.newBatch()
         console.log(batch)
@@ -43,8 +44,6 @@ class Sidebar extends React.Component {
                     calendarId: 'primary',
                     resource: createResourceObject(coursesAdded[i].courseTitle, 'Lecture', lectureSectionSelected.roomNo, createDateValue(lectureSectionSelected), createDateValue(lectureSectionSelected, lectureSectionSelected.hours.length), createDaysValueForCalendar(lectureSectionSelected.days), '20190501')
                 }))
-                
-                // request.execute(event => console.log(event))
             }
             if(coursesAdded[i].tutorialSectionSelected !== null) {
                 let tutorialSectionSelected = coursesAdded[i].tutorialSectionSelected
@@ -52,8 +51,6 @@ class Sidebar extends React.Component {
                     calendarId: 'primary',
                     resource: createResourceObject(coursesAdded[i].courseTitle, 'Tutorial', tutorialSectionSelected.roomNo, createDateValue(tutorialSectionSelected), createDateValue(tutorialSectionSelected, tutorialSectionSelected.hours.length), createDaysValueForCalendar(tutorialSectionSelected.days), '20190501')
                 }))
-                // batch.add(request)
-                // request.execute(event => console.log(event))
             }
             if(coursesAdded[i].practicalSectionSelected !== null) {
                 let practicalSectionSelected = coursesAdded[i].practicalSectionSelected
@@ -61,12 +58,24 @@ class Sidebar extends React.Component {
                     calendarId: 'primary',
                     resource: createResourceObject(coursesAdded[i].courseTitle, 'Practical', practicalSectionSelected.roomNo, createDateValue(practicalSectionSelected), createDateValue(practicalSectionSelected, practicalSectionSelected.hours.length), createDaysValueForCalendar(practicalSectionSelected.days), '20190501')
                 }))
-                // batch.add(request)
-                // request.execute(event => console.log(event))
             }
         }
         console.log(batch)
-        batch.execute(event => console.log(event))
+        batch.then((event) => {
+            if(event.status === 200) {
+                hide()
+                notification['success']({
+                    message: 'Synced with Google Calendar'
+                })
+            } else {
+                hide()
+                notification['error']({
+                    message: 'Failed to sync',
+                    description: 'Open your browser console and inform the developers about the error you got.'
+                })
+            }
+
+        })
 
     }
 

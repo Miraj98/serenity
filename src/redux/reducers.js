@@ -4,7 +4,7 @@ import { ADD_COURSE, DELETE_COURSE, HANDLE_CLASHES, SEARCH_RESULTS, UPDATE_SIGNI
 import CoursePool from './scripts/CoursePool'
 import { handleCompreClash } from './scripts/Clashes'
 import  { addCourseHelper, deleteCourseHelper } from './scripts/HelperFunctions'
-import { createDateValue } from '../components/Header/GoogleCalendar/scripts/sortCoursesByDay'
+
 
 
 //reducers...
@@ -35,14 +35,14 @@ const coursesAddedReducer = (state=[], action) => {
     if(action.type === DELETE_COURSE) {
         return [...state.filter(course => course.courseNo !== action.payload.courseNo)]
     }
-    if(state.length !== 0) console.log(createDateValue(state[0].lectureSectionSelected))
+    
     return state
 }
 
 const coursePoolReducer = (state = CoursePool, action) => { 
     if(action.type === HANDLE_CLASHES) {
         let coursesAdded = action.payload
-        console.log(coursesAdded)
+
 
         for(let i = 0; i < coursesAdded.length; i++) {
             let date = coursesAdded[i].compreDate.date.getDate()
