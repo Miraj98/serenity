@@ -4,6 +4,7 @@ export const DELETE_COURSE = 'DELETE_COURSE'
 export const HANDLE_CLASHES = 'HANDLE_CLASHES'
 export const SEARCH_RESULTS = 'SEARCH_RESULTS'
 export const UPDATE_SIGNIN_STATUS = 'UPDATE_SIGNIN_STATUS'
+export const HANDLE_SYNC = 'HANDLE_SYNC'
 
 
 export const addCourse = course => ({
@@ -29,4 +30,9 @@ export const addSearchResults = courses => ({
 export const updateSignInStatus = isSignedIn => ({
     type: UPDATE_SIGNIN_STATUS,
     payload: isSignedIn
+})
+
+export const handleSync = course => ({
+    type: HANDLE_SYNC,
+    payload: course
 })

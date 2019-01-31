@@ -22,7 +22,8 @@ class Course extends React.Component {
             lectureSectionSelected: null,
             practicalSectionSelected: null,
             tutorialSectionSelected: null,
-            clashExists: this.props.clashExists
+            clashExists: this.props.clashExists,
+            isSynced: this.props.isSynced
         }
     }
 

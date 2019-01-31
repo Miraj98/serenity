@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import emptyTimetable from './emptyTimetable'
-import { ADD_COURSE, DELETE_COURSE, HANDLE_CLASHES, SEARCH_RESULTS, UPDATE_SIGNIN_STATUS } from './actions'
+import { ADD_COURSE, DELETE_COURSE, HANDLE_CLASHES, SEARCH_RESULTS, UPDATE_SIGNIN_STATUS, HANDLE_SYNC } from './actions'
 import CoursePool from './scripts/CoursePool'
 import { handleCompreClash } from './scripts/Clashes'
 import  { addCourseHelper, deleteCourseHelper } from './scripts/HelperFunctions'
@@ -30,10 +30,14 @@ const timetableReducer = (state= emptyTimetable, action) => {
 
 const coursesAddedReducer = (state=[], action) => {
     if(action.type === ADD_COURSE) {
+        console.log([...state, action.payload])
         return [...state, action.payload]
     }
     if(action.type === DELETE_COURSE) {
         return [...state.filter(course => course.courseNo !== action.payload.courseNo)]
+    }
+    if(action.type === HANDLE_SYNC) {
+        return [...state.map(course => course.courseNo === action.payload.courseNo ? {...course, isSynced: true} : course)]
     }
     
     return state
@@ -42,7 +46,6 @@ const coursesAddedReducer = (state=[], action) => {
 const coursePoolReducer = (state = CoursePool, action) => { 
     if(action.type === HANDLE_CLASHES) {
         let coursesAdded = action.payload
-
 
         for(let i = 0; i < coursesAdded.length; i++) {
             let date = coursesAdded[i].compreDate.date.getDate()
@@ -70,6 +73,7 @@ const coursePoolReducer = (state = CoursePool, action) => {
 
         return [...state]
     }
+
     return state
 }
 

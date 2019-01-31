@@ -3,7 +3,7 @@ import React from 'react'
 import CalendarSync from './GoogleCalendar/CalendarSync'
 import  { Drawer, Icon, Button, message, notification } from 'antd'
 import { connect } from 'react-redux'
-import { deleteCourse, updateSignInStatus } from '../../redux/actions'
+import { deleteCourse, updateSignInStatus, handleSync } from '../../redux/actions'
 import store from '../../redux/store';
 import {createResourceObject, createDaysValueForCalendar, createDateValue} from './GoogleCalendar/scripts/sortCoursesByDay'
 
@@ -28,7 +28,6 @@ class Sidebar extends React.Component {
     handleLogin = () => {
         gapi.auth2.getAuthInstance().signIn().then(() => {
             store.dispatch(updateSignInStatus(true))
-            console.log("Logged in??")
         })
     }
 
@@ -36,28 +35,30 @@ class Sidebar extends React.Component {
         const hide = message.loading("Syncing with google calendar", 0)
         let coursesAdded = this.props.coursesAdded
         let batch = gapi.client.newBatch()
-        console.log(batch)
         for(let i = 0; i < coursesAdded.length; i++) {
-            if(coursesAdded[i].lectureSectionSelected !== null) {
-                let lectureSectionSelected = coursesAdded[i].lectureSectionSelected
-                batch.add( gapi.client.calendar.events.insert({
-                    calendarId: 'primary',
-                    resource: createResourceObject(coursesAdded[i].courseTitle, 'Lecture', lectureSectionSelected.roomNo, createDateValue(lectureSectionSelected), createDateValue(lectureSectionSelected, lectureSectionSelected.hours.length), createDaysValueForCalendar(lectureSectionSelected.days), '20190501')
-                }))
-            }
-            if(coursesAdded[i].tutorialSectionSelected !== null) {
-                let tutorialSectionSelected = coursesAdded[i].tutorialSectionSelected
-                batch.add(gapi.client.calendar.events.insert({
-                    calendarId: 'primary',
-                    resource: createResourceObject(coursesAdded[i].courseTitle, 'Tutorial', tutorialSectionSelected.roomNo, createDateValue(tutorialSectionSelected), createDateValue(tutorialSectionSelected, tutorialSectionSelected.hours.length), createDaysValueForCalendar(tutorialSectionSelected.days), '20190501')
-                }))
-            }
-            if(coursesAdded[i].practicalSectionSelected !== null) {
-                let practicalSectionSelected = coursesAdded[i].practicalSectionSelected
-                batch.add(gapi.client.calendar.events.insert({
-                    calendarId: 'primary',
-                    resource: createResourceObject(coursesAdded[i].courseTitle, 'Practical', practicalSectionSelected.roomNo, createDateValue(practicalSectionSelected), createDateValue(practicalSectionSelected, practicalSectionSelected.hours.length), createDaysValueForCalendar(practicalSectionSelected.days), '20190501')
-                }))
+            if(coursesAdded[i].isSynced === false) {
+                if(coursesAdded[i].lectureSectionSelected !== null) {
+                    let lectureSectionSelected = coursesAdded[i].lectureSectionSelected
+                    batch.add( gapi.client.calendar.events.insert({
+                        calendarId: 'primary',
+                        resource: createResourceObject(coursesAdded[i].courseTitle, 'Lecture', lectureSectionSelected.roomNo, createDateValue(lectureSectionSelected), createDateValue(lectureSectionSelected, lectureSectionSelected.hours.length), createDaysValueForCalendar(lectureSectionSelected.days), '20190501')
+                    }))
+                }
+                if(coursesAdded[i].tutorialSectionSelected !== null) {
+                    let tutorialSectionSelected = coursesAdded[i].tutorialSectionSelected
+                    batch.add(gapi.client.calendar.events.insert({
+                        calendarId: 'primary',
+                        resource: createResourceObject(coursesAdded[i].courseTitle, 'Tutorial', tutorialSectionSelected.roomNo, createDateValue(tutorialSectionSelected), createDateValue(tutorialSectionSelected, tutorialSectionSelected.hours.length), createDaysValueForCalendar(tutorialSectionSelected.days), '20190501')
+                    }))
+                }
+                if(coursesAdded[i].practicalSectionSelected !== null) {
+                    let practicalSectionSelected = coursesAdded[i].practicalSectionSelected
+                    batch.add(gapi.client.calendar.events.insert({
+                        calendarId: 'primary',
+                        resource: createResourceObject(coursesAdded[i].courseTitle, 'Practical', practicalSectionSelected.roomNo, createDateValue(practicalSectionSelected), createDateValue(practicalSectionSelected, practicalSectionSelected.hours.length), createDaysValueForCalendar(practicalSectionSelected.days), '20190501')
+                    }))
+                }
+                store.dispatch(handleSync(coursesAdded[i]))
             }
         }
         console.log(batch)
