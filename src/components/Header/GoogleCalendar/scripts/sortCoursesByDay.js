@@ -99,7 +99,6 @@ export const createResourceObject = (courseTitle, sectionType, roomNo, startTime
     reminders: {
         useDefault: false,
         overrides: [
-          {method: 'email', minutes: 24 * 60},
           {method: 'popup', minutes: 10}
         ]
     }
