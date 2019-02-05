@@ -1,7 +1,7 @@
 {
   "main.css": "/serenity/static/css/main.8559deab.chunk.css",
-  "main.js": "/serenity/static/js/main.04efad70.chunk.js",
-  "main.js.map": "/serenity/static/js/main.04efad70.chunk.js.map",
+  "main.js": "/serenity/static/js/main.2d29c313.chunk.js",
+  "main.js.map": "/serenity/static/js/main.2d29c313.chunk.js.map",
   "static/css/1.0c8236da.chunk.css": "/serenity/static/css/1.0c8236da.chunk.css",
   "static/js/1.8565087e.chunk.js": "/serenity/static/js/1.8565087e.chunk.js",
   "static/js/1.8565087e.chunk.js.map": "/serenity/static/js/1.8565087e.chunk.js.map",
@@ -10,6 +10,6 @@
   "static/css/1.0c8236da.chunk.css.map": "/serenity/static/css/1.0c8236da.chunk.css.map",
   "static/css/main.8559deab.chunk.css.map": "/serenity/static/css/main.8559deab.chunk.css.map",
   "index.html": "/serenity/index.html",
-  "precache-manifest.f8069de3b6d15c4a24aedf003f167824.js": "/serenity/precache-manifest.f8069de3b6d15c4a24aedf003f167824.js",
+  "precache-manifest.3daa8677238630aff5b627f6a8233a40.js": "/serenity/precache-manifest.3daa8677238630aff5b627f6a8233a40.js",
   "service-worker.js": "/serenity/service-worker.js"
 }
