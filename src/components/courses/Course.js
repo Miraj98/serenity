@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Card, Collapse, Alert, notification } from 'antd'
 import Section from './Section'
-import store from '../../redux/store'
 import { addCourse, handleClashes } from '../../redux/actions'
 import { connect } from 'react-redux'
 
@@ -10,20 +9,10 @@ class Course extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            courseTitle: this.props.courseTitle,
-            courseNo: this.props.courseNo,
-            comCode: this.props.comCode,
-            credits: [...this.props.credits],
-            instructorInCharge: this.props.ic,
-            compreDate: this.props.compreDate,
-            lectureSections: [...this.props.lectureSections],
-            tutorialSections: [...this.props.tutorialSections],
-            practicalSections: [...this.props.practicalSections],
+            ...this.props.course,
             lectureSectionSelected: null,
             practicalSectionSelected: null,
             tutorialSectionSelected: null,
-            clashExists: this.props.clashExists,
-            isSynced: this.props.isSynced
         }
     }
 
@@ -48,13 +37,13 @@ class Course extends React.Component {
     }
 
     handleAddToCart(course) {
-        store.dispatch(addCourse(course))
+        this.props.addCourse(course)
         notification['success']({
             message: 'Course added',
             description: `${course.courseTitle} (${course.courseNo}) added successfully to the timetable`,
             duration: 3
         })
-        store.dispatch(handleClashes(store.getState().coursesAdded))
+        this.props.handleClashes(this.props.coursesAdded)
         this.props.clearSearchResults()
   
     }
@@ -147,4 +136,9 @@ const mapStateToProps = state => ({
     coursePool: state.coursePool
 })
 
-export default connect(mapStateToProps)(Course)
+const mapDispatchToProps = {
+    addCourse,
+    handleClashes
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Course)

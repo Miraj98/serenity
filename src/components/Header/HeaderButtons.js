@@ -1,10 +1,8 @@
 /* global gapi */
 import React from 'react'
-import CalendarSync from './GoogleCalendar/CalendarSync'
 import  { Drawer, Icon, Button, message, notification } from 'antd'
 import { connect } from 'react-redux'
 import { deleteCourse, updateSignInStatus, handleSync } from '../../redux/actions'
-import store from '../../redux/store';
 import {createResourceObject, createDaysValueForCalendar, createDateValue} from './GoogleCalendar/scripts/sortCoursesByDay'
 
 
@@ -22,12 +20,12 @@ class Sidebar extends React.Component {
     }
 
     handleRemoveCourse(course) {
-        store.dispatch(deleteCourse(course))
+        this.props.deleteCourse(course)
     }
 
     handleLogin = () => {
         gapi.auth2.getAuthInstance().signIn().then(() => {
-            store.dispatch(updateSignInStatus(true))
+            this.props.updateSignInStatus(true)
         })
     }
 
@@ -59,7 +57,7 @@ class Sidebar extends React.Component {
                             resource: createResourceObject(coursesAdded[i].courseTitle, 'Practical', practicalSectionSelected.roomNo, createDateValue(practicalSectionSelected), createDateValue(practicalSectionSelected, practicalSectionSelected.hours.length), createDaysValueForCalendar(practicalSectionSelected.days), '20190501')
                         }))
                     }
-                    store.dispatch(handleSync(coursesAdded[i]))
+                    this.props.handleSync(coursesAdded[i])
                 }
             }
             console.log(batch)
@@ -94,7 +92,9 @@ class Sidebar extends React.Component {
                     <span><Icon type="shopping-cart" style={{fontSize: 18}}/></span><span style={{marginLeft: '0.5em'}}>My Cart</span>
                 </Button>
 
-                <CalendarSync onClick={() => (this.props.isSignedIn ? this.handleCalendarSync : this.handleLogin)}/>
+                <Button onClick={this.props.isSignedIn ? this.handleCalendarSync : this.handleLogin}>
+                    <span><Icon type="google" theme="outlined" style={{fontSize: 18}}/></span><span style={{marginLeft: '0.5em'}}>{this.props.isSignedIn ? `Sync with Google calendar` : `Sign In`}</span>
+                </Button>
 
                 <Drawer
                     title="Courses Added"
@@ -120,4 +120,10 @@ const mapStateToProps = state => ({
     isSignedIn: state.isSignedIn
 })
 
-export default connect(mapStateToProps)(Sidebar)
+const mapDispatchToProps = {
+    deleteCourse,
+    updateSignInStatus,
+    handleSync
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

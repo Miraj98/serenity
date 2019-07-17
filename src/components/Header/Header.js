@@ -1,16 +1,15 @@
 import React from 'react'
-import Sidebar from './Sidebar'
+import Sidebar from './HeaderButtons'
 import { connect } from 'react-redux'
 import { Input } from 'antd'
 import { getSearchResults } from './getSearchResults'
-import store from '../../redux/store'
 import { addSearchResults } from '../../redux/actions'
 
 class Header extends React.Component {
 
     handleSearch(input) {
         let results = getSearchResults(input, this.props.coursePool)
-        store.dispatch(addSearchResults(results))
+        this.props.addSearchResults(results)
     }
 
     render() {
@@ -29,13 +28,13 @@ class Header extends React.Component {
             }>
                 <div style={{fontSize: '1.5em'}}><b>SERENITY</b></div>
                 <Input.Search
-                    placeholder='Search courses...'
+                    placeholder='Search courses'
                     style={{width: '50em'}}
                     size='large'
                     enterButton
                     onChange={({ target }) => this.handleSearch(target.value)}
                 />
-                <Sidebar />
+                <Sidebar/>
             </div>
         )
     }
@@ -45,4 +44,8 @@ const mapStateToProps = state => ({
     coursePool: state.coursePool
 })
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProps = {
+    addSearchResults
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)
