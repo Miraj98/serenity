@@ -4,7 +4,7 @@
 
 
 
-let coursesToRead = [""];
+let coursesToRead = [""];                   //prefix of the courses to read
 
 function isNullOrWhiteSpace(str) {
     return (!str || str.length === 0 || /^\s*$/.test(str));
@@ -36,7 +36,7 @@ class Course {
 }
 
 class Section {
-    constructor () {
+    constructor() {
         this.commonHour = null;
         this.type = null;
         this.sectionNo = null;
@@ -62,43 +62,51 @@ export default function readttbookletserver(rawText) {
 
     let splitText = rawText.split(/,|\n/);
 
-    for (let i=0 ; i < splitText.length ; ) {
+    for (let i = 0; i < splitText.length;) {
+
         //ADD FILTRATION CLAUSE HERE
+
         let skipCourse = true;
+
         for (let j in coursesToRead) {
             let coursePrefix = coursesToRead[j];
-            if (splitText[i+1].startsWith(coursePrefix)) {
+            if (splitText[i + 1].startsWith(coursePrefix)) {
                 skipCourse = false;
             }
         }
-        // if ( !splitText[i+1].startsWith("CS F2") &&!splitText[i+1].startsWith("GS") && !splitText[i+1].startsWith("HSS") ) {
+
         if (skipCourse) {
-            console.log("Skipping course: " + splitText[i+1]);
+            console.log("Skipping course: " + splitText[i + 1]);
             do {
                 i += 12;
-            } while ( isNullOrWhiteSpace(splitText[i]) && i<splitText.length );
+            } while (isNullOrWhiteSpace(splitText[i]) && i < splitText.length);
             continue;
         }
 
-        let j=i;
+        let j = i;
 
-        //Read Course Details
+        // ------------Read Course Details----------------
+
+        // Read course code, number and title
         let newCourse = new Course();
         newCourse.comCode = parseInt(splitText[j], 10);
-        newCourse.courseNo = splitText[j+1];
-        newCourse.courseTitle = splitText[j+2];
-        let individualCredits = splitText[j+3].split(' ');
+        newCourse.courseNo = splitText[j + 1];
+        newCourse.courseTitle = splitText[j + 2];
+
+        // Read course credits
+        let individualCredits = splitText[j + 3].split(' ');
         individualCredits = individualCredits.filter(Boolean);
-        for (let k=0 ; k<3 ; k++) {
+        for (let k = 0; k < 3; k++) {
             if (individualCredits[k] === '-') {
                 newCourse.credits.push(0);
             } else {
-                newCourse.credits.push( parseInt(individualCredits[k], 10) );
+                newCourse.credits.push(parseInt(individualCredits[k], 10));
             }
         }
-        // newCourse.compreDate = splitText[j+11];
-        if(splitText[j+11]) {
-            let compreDateList = splitText[j+11].split(" ");
+
+        // Read compre date
+        if (splitText[j + 11]) {
+            let compreDateList = splitText[j + 11].split(" ");
             compreDateList = compreDateList.filter(Boolean);
             compreDateList[0] = compreDateList[0].split("/");
             newCourse.compreDate = {
@@ -106,117 +114,125 @@ export default function readttbookletserver(rawText) {
                 time: compreDateList[1],
             }
         }
-        //Read Lecture Sections
+
+        // Read Lecture Sections
         do {
             let newSection = new Section();
 
-            if (splitText[j+10]) {
-                let commonHourList = splitText[j+10].split(' ');
+            // Read common hour details, if exists
+            if (splitText[j + 10]) {
+                let commonHourList = splitText[j + 10].split(' ');
                 commonHourList = commonHourList.filter(Boolean);
                 newSection.commonHour = {
-                    // day: commonHourList[0],
                     day: daysDictionary[commonHourList[0]],
-                    // hour: commonHourList[1],
                     hour: parseInt(commonHourList[1]),
-                    // room: commonHourList[2],
                     room: parseInt(commonHourList[2]),
                 };
             }
 
+            // Read section number and room number
             newSection.type = "Lecture";
-            newSection.sectionNo = parseInt(splitText[j+4]) || 1;
-            newSection.roomNo = parseInt(splitText[j+7]);
+            newSection.sectionNo = parseInt(splitText[j + 4]) || 1;
+            newSection.roomNo = parseInt(splitText[j + 7]);
 
-            let daysList = splitText[j+8].split(' ');
+            // Read section days
+            let daysList = splitText[j + 8].split(' ');
             daysList = daysList.filter(Boolean);
             for (let day in daysList) {
-                // if (day) {
-                    newSection.days.push(daysDictionary[daysList[day]]);
-                // }
+                newSection.days.push(daysDictionary[daysList[day]]);
             }
 
-            let hoursList = splitText[j+9].split(' ');
+            // Read section hours
+            let hoursList = splitText[j + 9].split(' ');
             hoursList = hoursList.filter(Boolean);
             for (let hour in hoursList) {
-                // if (hour) {
-                    newSection.hours.push( parseInt(hoursList[hour]) );
-                // }
+                newSection.hours.push(parseInt(hoursList[hour]));
             }
+
+            // Read section instructors
             do {
-                let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+                let newInstructor = new Instructor(splitText[j + 5], splitText[j + 6]);
                 newSection.instructors.push(newInstructor);
                 j += 12;
-            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+            } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && isNullOrWhiteSpace(splitText[j + 4]) && (j < splitText.length));
+
             newCourse.lectureSections.push(newSection);
-        } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
 
-        //Read Practical Sections
-        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] === 'Practical') ) {
+        } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && (j < splitText.length));
+
+        // Read Practical Sections
+        if (isNullOrWhiteSpace(splitText[j]) && (splitText[j + 2] === 'Practical')) {
             do {
                 let newSection = new Section();
 
+                // Read section number and room number
                 newSection.type = "Practical";
-                newSection.sectionNo = parseInt(splitText[j+4]) || 1;
-                newSection.roomNo = parseInt(splitText[j+7]);
+                newSection.sectionNo = parseInt(splitText[j + 4]) || 1;
+                newSection.roomNo = parseInt(splitText[j + 7]);
 
-                let daysList = splitText[j+8].split(' ');
+                // Read section days
+                let daysList = splitText[j + 8].split(' ');
                 daysList = daysList.filter(Boolean);
                 for (let day in daysList) {
-                    // if (day) {
-                        newSection.days.push(daysDictionary[daysList[day]]);
-                    // }
+                    newSection.days.push(daysDictionary[daysList[day]]);
                 }
 
-                let hoursList = splitText[j+9].split(' ');
+                // Read section hours
+                let hoursList = splitText[j + 9].split(' ');
                 hoursList = hoursList.filter(Boolean);
                 for (let hour in hoursList) {
-                    // if (hour) {
-                        newSection.hours.push( parseInt(hoursList[hour]) );
-                    // }
+                    newSection.hours.push(parseInt(hoursList[hour]));
                 }
+
+                // Read section instructors
                 do {
-                    let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+                    let newInstructor = new Instructor(splitText[j + 5], splitText[j + 6]);
                     newSection.instructors.push(newInstructor);
                     j += 12;
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+                } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && isNullOrWhiteSpace(splitText[j + 4]) && (j < splitText.length));
+
                 newCourse.practicalSections.push(newSection);
-            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
+
+            } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && (j < splitText.length));
         }
 
-        //Read Tutorial Sections
-        if ( isNullOrWhiteSpace(splitText[j]) && (splitText[j+2] === 'Tutorial') ) {
+        // Read Tutorial Sections
+        if (isNullOrWhiteSpace(splitText[j]) && (splitText[j + 2] === 'Tutorial')) {
             do {
                 let newSection = new Section();
 
+                // Read section number and room number
                 newSection.type = "Tutorial";
-                newSection.sectionNo = parseInt(splitText[j+4]) || 1;
-                newSection.roomNo = parseInt(splitText[j+7]);
+                newSection.sectionNo = parseInt(splitText[j + 4]) || 1;
+                newSection.roomNo = parseInt(splitText[j + 7]);
 
-                let daysList = splitText[j+8].split(' ');
+                // Read section days
+                let daysList = splitText[j + 8].split(' ');
                 daysList = daysList.filter(Boolean);
                 for (let day in daysList) {
-                    // if (day) {
-                        newSection.days.push(daysDictionary[daysList[day]]);
-                    // }
+                    newSection.days.push(daysDictionary[daysList[day]]);
                 }
 
-                let hoursList = splitText[j+9].split(' ');
+                // Read section hours
+                let hoursList = splitText[j + 9].split(' ');
                 hoursList = hoursList.filter(Boolean);
                 for (let hour in hoursList) {
-                    // if (hour) {
-                        newSection.hours.push( parseInt(hoursList[hour]) );
-                    // }
+                    newSection.hours.push(parseInt(hoursList[hour]));
                 }
+
+                // Read section instructors
                 do {
-                    let newInstructor = new Instructor( splitText[j+5], splitText[j+6] );
+                    let newInstructor = new Instructor(splitText[j + 5], splitText[j + 6]);
                     newSection.instructors.push(newInstructor);
                     j += 12;
-                } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && isNullOrWhiteSpace(splitText[j+4]) && (j < splitText.length) );
+                } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && isNullOrWhiteSpace(splitText[j + 4]) && (j < splitText.length));
+
                 newCourse.tutorialSections.push(newSection);
-            } while ( isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j+2]) && (j < splitText.length) );
+
+            } while (isNullOrWhiteSpace(splitText[j]) && isNullOrWhiteSpace(splitText[j + 2]) && (j < splitText.length));
         }
 
-        i=j;
+        i = j;
 
         coursePool.push(newCourse);
     }
