@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import CourseList from './components/courses/CourseList'
-import Timetable from './components/timetable/Timetable'
-import Footer from './components/footer/Footer'
-import Header from './components/header/Header'
+import Timetable from './components/Timetable/Timetable'
+import Footer from './components/Footer/Footer'
+import Header from './components/Header/Header'
 import { connect } from 'react-redux'
-import { initGoogleAPI } from './components/header/GoogleCalendar/scripts/login'
+import { initGoogleAPI } from './components/Header/GoogleCalendar/scripts/login'
 
 class App extends Component {
 
